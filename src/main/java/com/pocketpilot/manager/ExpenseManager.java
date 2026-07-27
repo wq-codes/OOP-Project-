@@ -5,6 +5,8 @@ import com.pocketpilot.model.Expense;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExpenseManager {
 
@@ -88,15 +90,42 @@ public class ExpenseManager {
 
     }
 
-    public void addexpense(double amount , LocalDate date , String description, String category) throws IOException {
+    public void addexpense(double amount, LocalDate date, String description, String category) throws IOException {
 
-          String generatedID = gen_expenseID();
-           Expense expense = new Expense (generatedID, amount,  date, description, category);
-              expenselist.add(expense);
-           saveexpense();
+        String generatedID = gen_expenseID();
+        Expense expense = new Expense(generatedID, amount, date, description, category);
+        expenselist.add(expense);
+        saveexpense();
 
-        }
     }
+
+    public double gettotalexpense() {
+        double totalexpense = 0;
+        for (Expense e : expenselist) {
+            totalexpense += e.getAmount();
+        }
+        return totalexpense;
+    }
+
+    public Map<String, Double> getExpensesByCategory() {
+        Map<String, Double> expenses = new HashMap<>();
+
+
+        for (Expense e : expenselist) {
+
+            if (expenses.containsKey(e.getCategory())) {
+
+                double currenttotal = expenses.get(e.getCategory());
+                expenses.put(e.getCategory(), currenttotal + e.getAmount());
+            } else {
+                expenses.put(e.getCategory(), e.getAmount());
+
+            }
+        }
+            return expenses;
+        }
+
+}
 
 
 
