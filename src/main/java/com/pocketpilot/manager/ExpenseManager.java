@@ -1,11 +1,8 @@
 package com.pocketpilot.manager;
 
 import com.pocketpilot.model.Expense;
-import com.pocketpilot.model.User;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -13,7 +10,7 @@ public class ExpenseManager {
 
 
     ArrayList<Expense> expenselist;
-    int counter ;
+    int counter;
 
     public ExpenseManager() {
         expenselist = new ArrayList<>();
@@ -23,7 +20,7 @@ public class ExpenseManager {
             throw new RuntimeException(e);
         }
 
-        counter =gethighestID() + 1;
+        counter = gethighestID() + 1;
 
     }
 
@@ -65,28 +62,41 @@ public class ExpenseManager {
         return highest;
     }
 
-    public void deleteexpense(String transaction){
+    public void deleteexpense(String transaction) {
 
 
+        for (Expense e : expenselist) {
 
-    for (Expense e :expenselist){
+            if (e.getTransactionId().equals(transaction)) {
 
-          if ( e.getTransactionId().equals(transaction)){
+                expenselist.remove(e);
 
-              expenselist.remove(e);
-
-          }
+            }
+        }
     }
-       }
 
+    public void saveexpense() throws IOException {
 
+        BufferedWriter bw = new BufferedWriter(new FileWriter("expense.txt"));
 
+        for (Expense e : expenselist) {
+            String line = (e.getTransactionId() + "," + e.getAmount() + "," + e.getDate() + "," + e.getDescription() + "," + e.getCategory());
+            bw.write(line);
+            bw.newLine();
+        }
+        bw.close();
 
+    }
 
+    public void addexpense(double amount , LocalDate date , String description, String category) throws IOException {
 
+          String generatedID = gen_expenseID();
+           Expense expense = new Expense (generatedID, amount,  date, description, category);
+              expenselist.add(expense);
+           saveexpense();
 
-
-}
+        }
+    }
 
 
 
