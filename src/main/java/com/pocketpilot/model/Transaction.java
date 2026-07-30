@@ -8,8 +8,9 @@ public class Transaction {
    protected  double amount;
      protected LocalDate date;
    protected  String description;
+protected String userId;
 
-    public Transaction(String transactionId, double amount, LocalDate date, String description) {
+    public Transaction(String transactionId, double amount, LocalDate date, String description,String userId) {
         this.transactionId = transactionId;
 
       if (amount<=0){
@@ -19,6 +20,12 @@ public class Transaction {
 
          this.date = date;
           this.description = description;
+
+            this.userId=userId;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public void setDescription(String description) {

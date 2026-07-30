@@ -35,7 +35,7 @@ public class ExpenseManager {
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
 
-            Expense expense = new Expense(parts[0], Double.parseDouble(parts[1]), LocalDate.parse(parts[2]), parts[3], parts[4]);
+            Expense expense = new Expense(parts[0], Double.parseDouble(parts[1]), LocalDate.parse(parts[2]), parts[3], parts[4],parts[5]);
             expenselist.add(expense);
         }
         reader.close();
@@ -82,7 +82,7 @@ public class ExpenseManager {
         BufferedWriter bw = new BufferedWriter(new FileWriter("expense.txt"));
 
         for (Expense e : expenselist) {
-            String line = (e.getTransactionId() + "," + e.getAmount() + "," + e.getDate() + "," + e.getDescription() + "," + e.getCategory());
+            String line = (e.getTransactionId() + "," + e.getAmount() + "," + e.getDate() + "," + e.getDescription() + "," + e.getCategory()+","+e.getUserId());
             bw.write(line);
             bw.newLine();
         }
@@ -90,29 +90,32 @@ public class ExpenseManager {
 
     }
 
-    public void addexpense(double amount, LocalDate date, String description, String category) throws IOException {
+    public void addexpense(double amount, LocalDate date, String description, String category,String userId) throws IOException {
 
         String generatedID = gen_expenseID();
-        Expense expense = new Expense(generatedID, amount, date, description, category);
+        Expense expense = new Expense(generatedID, amount, date, description, category,userId);
         expenselist.add(expense);
         saveexpense();
 
     }
 
-    public double gettotalexpense() {
+    public double gettotalexpense(String userId) {
         double totalexpense = 0;
         for (Expense e : expenselist) {
+               if (e.getUserId().equals(userId))
             totalexpense += e.getAmount();
         }
         return totalexpense;
     }
 
-    public Map<String, Double> getExpensesByCategory() {
+    public Map<String, Double> getExpensesByCategory(String userId) {
         Map<String, Double> expenses = new HashMap<>();
 
 
         for (Expense e : expenselist) {
 
+
+                 if (e.getUserId().equals(userId)){
             if (expenses.containsKey(e.getCategory())) {
 
                 double currenttotal = expenses.get(e.getCategory());
@@ -120,13 +123,12 @@ public class ExpenseManager {
             } else {
                 expenses.put(e.getCategory(), e.getAmount());
 
-            }
+            }   }
         }
             return expenses;
         }
 
 }
-
 
 
 

@@ -1,13 +1,14 @@
 package com.pocketpilot.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Income extends Transaction {
 
     private String source;
 
-    public Income(String transactionId, double amount, Date date, String description, String source) {
-        super(transactionId, amount, date, description);
+    public Income(String transactionId, double amount, LocalDate date, String description,String userId, String source) {
+        super(transactionId, amount, date, description,userId);
 
         if (source == null || source.trim().isEmpty()) {
             throw new IllegalArgumentException("Source cannot be empty");

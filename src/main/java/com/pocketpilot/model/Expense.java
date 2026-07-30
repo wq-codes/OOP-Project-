@@ -7,8 +7,8 @@ public class Expense extends Transaction {
 
         private String category;
 
-        public Expense(String transactionId, double amount, LocalDate date, String description, String category) {
-            super(transactionId, amount, date, description);
+        public Expense(String transactionId, double amount, LocalDate date, String description,String userId, String category) {
+            super(transactionId, amount, date, description,userId);
 
             if (category == null || category.trim().isEmpty()) {
                 throw new IllegalArgumentException("Category cannot be empty");
