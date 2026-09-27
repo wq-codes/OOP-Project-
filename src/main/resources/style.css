@@ -1,0 +1,10 @@
+.button {
+    -fx-background-color: #2C3E50; /* dark navy, matches your theme */
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #4A90D9; /* blue, same as your Sign In button */
+}

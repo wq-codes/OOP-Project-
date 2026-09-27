@@ -1,0 +1,2 @@
+EX001,1000.0,2026-09-02,dolmen,clothing,U006
+EX002,1000.0,2026-09-02,fast food,food,U007

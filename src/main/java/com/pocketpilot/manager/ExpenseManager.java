@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 public class ExpenseManager {
 
@@ -27,15 +28,16 @@ public class ExpenseManager {
     }
 
     public void loadexpense() throws IOException {
+        File file = new File("expense.txt");
+        if (!file.exists()) {
+            return;
+        }
 
-        BufferedReader reader = new BufferedReader(new FileReader("expense.txt"));
-
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
-
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
-
-            Expense expense = new Expense(parts[0], Double.parseDouble(parts[1]), LocalDate.parse(parts[2]), parts[3], parts[4],parts[5]);
+            Expense expense = new Expense(parts[0], Double.parseDouble(parts[1]), LocalDate.parse(parts[2]), parts[3], parts[5], parts[4]);
             expenselist.add(expense);
         }
         reader.close();
@@ -93,7 +95,7 @@ public class ExpenseManager {
     public void addexpense(double amount, LocalDate date, String description, String category,String userId) throws IOException {
 
         String generatedID = gen_expenseID();
-        Expense expense = new Expense(generatedID, amount, date, description, category,userId);
+        Expense expense = new Expense(generatedID, amount, date, description, userId, category);
         expenselist.add(expense);
         saveexpense();
 
@@ -128,6 +130,19 @@ public class ExpenseManager {
             return expenses;
         }
 
+
+    public ArrayList<Expense> getExpensesForUser(String userId) {
+        System.out.println("Filtering for userId: " + userId);
+        System.out.println("Total expenses in list: " + expenselist.size());
+        ArrayList<Expense> result = new ArrayList<>();
+        for (Expense e : expenselist) {
+            System.out.println("Expense userId: " + e.getUserId());
+            if (e.getUserId().equals(userId)) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
 }
 
 

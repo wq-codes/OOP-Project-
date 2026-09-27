@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15" style="-fx-background-color: #0f1729;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pocketpilot.controller.ReportController">
+
+    <padding>
+        <Insets bottom="20" left="25" right="25" top="20" />
+    </padding>
+
+    <children>
+
+        <!-- Header -->
+        <VBox spacing="2">
+            <children>
+                <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="Reports" />
+                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="Overview of your financial summary" />
+            </children>
+        </VBox>
+
+        <!-- Summary cards row -->
+        <HBox spacing="12">
+            <children>
+
+                <VBox prefHeight="80" prefWidth="205" spacing="4" style="-fx-background-color: #14311f; -fx-background-radius: 8; -fx-border-color: #22c55e; -fx-border-radius: 8;">
+                    <padding><Insets bottom="10" left="12" right="12" top="10" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: #cbd5e1; -fx-font-size: 11px;" text="Total Income" />
+                        <Label fx:id="totalIncomeLabel" style="-fx-text-fill: #4ade80; -fx-font-size: 17px; -fx-font-weight: bold;" text="PKR 0" />
+                        <Label style="-fx-text-fill: #64748b; -fx-font-size: 10px;" text="All Time" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="80" prefWidth="205" spacing="4" style="-fx-background-color: #311414; -fx-background-radius: 8; -fx-border-color: #ef4444; -fx-border-radius: 8;">
+                    <padding><Insets bottom="10" left="12" right="12" top="10" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: #cbd5e1; -fx-font-size: 11px;" text="Total Expenses" />
+                        <Label fx:id="totalExpenseLabel" style="-fx-text-fill: #f87171; -fx-font-size: 17px; -fx-font-weight: bold;" text="PKR 0" />
+                        <Label style="-fx-text-fill: #64748b; -fx-font-size: 10px;" text="All Time" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="80" prefWidth="205" spacing="4" style="-fx-background-color: #14213a; -fx-background-radius: 8; -fx-border-color: #3b82f6; -fx-border-radius: 8;">
+                    <padding><Insets bottom="10" left="12" right="12" top="10" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: #cbd5e1; -fx-font-size: 11px;" text="Net Savings" />
+                        <Label fx:id="netSavingsLabel" style="-fx-text-fill: #60a5fa; -fx-font-size: 17px; -fx-font-weight: bold;" text="PKR 0" />
+                        <Label style="-fx-text-fill: #64748b; -fx-font-size: 10px;" text="All Time" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="80" prefWidth="205" spacing="4" style="-fx-background-color: #2a2410; -fx-background-radius: 8; -fx-border-color: #eab308; -fx-border-radius: 8;">
+                    <padding><Insets bottom="10" left="12" right="12" top="10" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: #cbd5e1; -fx-font-size: 11px;" text="Budget Status" />
+                        <Label fx:id="budgetStatusLabel" style="-fx-text-fill: #facc15; -fx-font-size: 15px; -fx-font-weight: bold;" text="Within Budget" />
+                        <Label style="-fx-text-fill: #64748b; -fx-font-size: 10px;" text="Based on current budget" />
+                    </children>
+                </VBox>
+
+            </children>
+        </HBox>
+
+        <!-- Two pie charts side by side -->
+        <HBox spacing="12">
+            <children>
+
+                <VBox prefHeight="230" prefWidth="425" spacing="6" style="-fx-background-color: #1a2332; -fx-background-radius: 8;">
+                    <padding><Insets bottom="12" left="12" right="12" top="12" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="Expense by Category" />
+                        <PieChart fx:id="expenseByCategoryChart" animated="false" labelsVisible="true" legendVisible="true" maxHeight="190" prefHeight="190" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="230" prefWidth="425" spacing="6" style="-fx-background-color: #1a2332; -fx-background-radius: 8;">
+                    <padding><Insets bottom="12" left="12" right="12" top="12" /></padding>
+                    <children>
+                        <Label style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="Income by Source" />
+                        <PieChart fx:id="incomeBySourceChart" animated="false" labelsVisible="true" legendVisible="true" maxHeight="190" prefHeight="190" />
+                    </children>
+                </VBox>
+
+            </children>
+        </HBox>
+
+        <!-- Income vs Expense bar chart -->
+        <VBox prefHeight="210" spacing="6" style="-fx-background-color: #1a2332; -fx-background-radius: 8;">
+            <padding><Insets bottom="12" left="12" right="12" top="12" /></padding>
+            <children>
+                <Label style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="Income vs Expense" />
+                <BarChart fx:id="incomeVsExpenseChart" animated="false" legendVisible="false" maxHeight="160" prefHeight="160">
+                    <xAxis>
+                        <CategoryAxis fx:id="incomeExpenseXAxis" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="incomeExpenseYAxis" />
+                    </yAxis>
+                </BarChart>
+            </children>
+        </VBox>
+
+    </children>
+</VBox>

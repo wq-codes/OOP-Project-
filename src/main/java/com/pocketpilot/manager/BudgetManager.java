@@ -6,6 +6,7 @@ import com.pocketpilot.model.Income;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.io.File;
 
 public class BudgetManager {
 
@@ -28,18 +29,20 @@ public class BudgetManager {
 
 
     public void loadbudget() throws IOException {
+        File file = new File("budget.txt");
+        if (!file.exists()) {
+            return;
+        }
 
-        BufferedReader reader = new BufferedReader(new FileReader("budget.txt"));
-
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         while ((line = reader.readLine()) != null) {
-
             String[] parts = line.split(",");
             Budget budget = new Budget(parts[0], parts[1], parts[2], Double.parseDouble(parts[3]));
+            budget.setSpentAmount(Double.parseDouble(parts[4]));
             budgetlist.add(budget);
         }
         reader.close();
-
     }
 
     public void savebudget() throws IOException {
@@ -47,7 +50,7 @@ public class BudgetManager {
         BufferedWriter bw = new BufferedWriter(new FileWriter("budget.txt"));
 
         for (Budget b : budgetlist) {
-            String line = (b.getBudgetId() + "," + b.getUserId() + "," + b.getMonth() + "," + b.getLimitAmount());
+            String line = (b.getBudgetId() + "," + b.getUserId() + "," + b.getMonth() + "," + b.getLimitAmount() + "," + b.getSpentAmount());
             bw.write(line);
             bw.newLine();
         }
@@ -79,21 +82,18 @@ public class BudgetManager {
         return highest;
     }
 
-    public Budget getbudget(String month) {
+    public Budget getbudget(String userId, String month) {
         for (Budget b : budgetlist) {
-
-            if (b.getMonth().equals(month)) {
+            if (b.getUserId().equals(userId) && b.getMonth().equals(month)) {
                 return b;
             }
-
         }
         return null;
     }
 
-    public void addspending(String month, double amount) throws IOException {
+    public void addspending(String userId, String month, double amount) throws IOException {
         for (Budget b : budgetlist) {
-
-            if (b.getMonth().equals(month)) {
+            if (b.getUserId().equals(userId) && b.getMonth().equals(month)) {
                 b.addSpending(amount);
                 savebudget();
                 return;
@@ -101,30 +101,26 @@ public class BudgetManager {
         }
     }
 
-    public boolean isbudgetexceeded(String month) {
+    public boolean isbudgetexceeded(String userId, String month) {
         boolean result = false;
         for (Budget b : budgetlist) {
-
-            if (b.getMonth().equals(month)) {
+            if (b.getUserId().equals(userId) && b.getMonth().equals(month)) {
                 result = b.isBudgetExceeded();
-              return result;
+                return result;
             }
         }
-
-  return false;
+        return false;
     }
 
-    public double  getRemainingamount(String month){
-        double remaining=0;
+    public double getRemainingamount(String userId, String month) {
+        double remaining = 0;
         for (Budget b : budgetlist) {
-
-            if (b.getMonth().equals(month)) {
-              remaining= b.getRemainingAmount();
-            return remaining;
-    }
-
-}
-       return 0;
+            if (b.getUserId().equals(userId) && b.getMonth().equals(month)) {
+                remaining = b.getRemainingAmount();
+                return remaining;
+            }
+        }
+        return 0;
     }
 
 
@@ -136,4 +132,18 @@ public class BudgetManager {
         savebudget();
 
     }
+
+
+    public void updateBudget(String userId,String month,double newLimit) throws IOException {
+
+        for (Budget b : budgetlist) {
+            if (b.getUserId().equals(userId) && b.getMonth().equals(month)) {
+                b.setLimitAmount(newLimit);
+                savebudget();
+                return;
+            }
+        }
+    }
+
+
 }

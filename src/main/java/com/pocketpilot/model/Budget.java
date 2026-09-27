@@ -46,6 +46,10 @@ public class Budget {
         return spentAmount;
     }
 
+    public void setSpentAmount(double spentAmount) {
+        this.spentAmount = spentAmount;
+    }
+
     public double getRemainingAmount() {
         return limitAmount - spentAmount;
     }
@@ -72,5 +76,13 @@ public class Budget {
                 ", limitAmount=" + limitAmount +
                 ", spentAmount=" + spentAmount +
                 '}';
+    }
+
+    //setting budgetlimit
+    public void setLimitAmount(double limitAmount) {
+        if (limitAmount < 0) {
+            throw new IllegalArgumentException("Limit amount cannot be negative");
+        }
+        this.limitAmount = limitAmount;
     }
 }

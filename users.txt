@@ -1,0 +1,7 @@
+U001,waqar,waqar3938,waqaryou06@gmail.com
+U002,waqar,waqar3938,waqaryou06@gmail.com
+U003,abid,abid3938,abid06@gmail.com
+U004,moeez,moeez@3938,moeez07@gmail.com
+U005,muzamil,123,muzamil09@gmail.com
+U006,vicky,1234,vicky06@gmail.com
+U007,abdulrehman,1234567890,abdulrehmanyou05@gmail.com

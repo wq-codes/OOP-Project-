@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 public class IncomeManager {
 
@@ -28,19 +29,20 @@ public class IncomeManager {
 
 
 
-    public void loadincome() throws IOException{
+    public void loadincome() throws IOException {
+        File file = new File("income.txt");
+        if (!file.exists()) {
+            return;
+        }
 
-        BufferedReader reader= new BufferedReader(new FileReader("income.txt"));
-
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
-        while ((line=reader.readLine())!=null){
-
-          String [] parts=  line.split(",");
-
-            Income income=new Income(parts[0],Double.parseDouble(parts[1]), LocalDate.parse(parts[2]),parts[3],parts[4],parts[5]);
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            Income income = new Income(parts[0], Double.parseDouble(parts[1]), LocalDate.parse(parts[2]), parts[3], parts[5], parts[4]);
             incomelist.add(income);
         }
-         reader.close();
+        reader.close();
     }
 
     public void saveincome () throws IOException {
@@ -92,6 +94,8 @@ public class IncomeManager {
 
     public double gettotalincome(String userId) {
         double totalincome = 0;
+        System.out.println("Current user: " + userId);
+
         for (Income i : incomelist) {
             if (i.getUserId().equals(userId)) {
                 totalincome += i.getAmount();
@@ -103,7 +107,7 @@ public class IncomeManager {
     public void addincome(double amount, LocalDate date, String description, String source,String userId) throws IOException {
 
         String generatedID = gen_incomeID();
-        Income income= new Income(generatedID, amount, date, description, source,userId);
+        Income income = new Income(generatedID, amount, date, description, userId, source);
         incomelist.add(income);
         saveincome();
 
@@ -127,5 +131,20 @@ public class IncomeManager {
         }
         return incomes;
     }
+
+
+    public ArrayList<Income> getincomeforUsers(String userId) {
+        ArrayList<Income> result = new ArrayList<>();
+
+
+        for (Income i : incomelist) {
+            if (userId.equals(i.getUserId())) {
+                result.add(i);
+            }         }
+            return result;
+        }
+
+
+
 
 }

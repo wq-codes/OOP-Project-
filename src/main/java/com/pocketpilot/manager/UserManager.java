@@ -4,6 +4,7 @@ import com.pocketpilot.model.User;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.io.File;
 
 public class UserManager {
 
@@ -23,14 +24,15 @@ public class UserManager {
     }
 
     public void loaduser() throws IOException {
+        File file = new File("users.txt");
+        if (!file.exists()) {
+            return; // no file yet, nothing to load — start with empty list
+        }
 
-        BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
-
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
-
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
-
             User user = new User(parts[0], parts[1], parts[2], parts[3]);
             userlist.add(user);
         }
